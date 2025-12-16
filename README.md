@@ -1,12 +1,12 @@
-## University of Turkish Aeronautical Association
-### Computer Engineering – CS 305: Operating Systems
-### Assignment: Process Scheduling Simulator
+## 🎓 University of Turkish Aeronautical Association
+### 💻 Computer Engineering – CS 305: Operating Systems
+### 🧭 Assignment: Process Scheduling Simulator
 
 This project is a containerized web application that simulates classic CPU scheduling algorithms (FCFS, SJF, Priority, Round Robin) using a web-based interface built with FastAPI and Jinja2.  
 Users can upload a process definition file, run multiple algorithms in parallel, and visualize:
-- Gantt charts for each algorithm
-- Per‑process metrics (finish time, turnaround time, waiting time)
-- Average turnaround/waiting times and CPU utilization
+- 📊 Gantt charts for each algorithm
+- 🧾 Per‑process metrics (finish time, turnaround time, waiting time)
+- 📈 Average turnaround/waiting times and CPU utilization
 
 ### 🚀 Quick Start (Docker)
 
@@ -20,7 +20,7 @@ You can run the entire simulator using Docker without installing Python dependen
 3. After the container starts, open your browser and go to:
    - `http://localhost:8080`
 
-> Note on Docker/Compose commands  
+> 🧩 Note on Docker/Compose commands  
 > - If `docker-compose up --build` works, you’re all set.  
 > - If you try `docker compose up --build` and see `unknown flag: --build`, your Docker CLI doesn’t have the new Compose v2 plugin; just use `docker-compose up --build` (or install/update Docker Desktop to get `docker compose`).
 
