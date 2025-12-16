@@ -39,3 +39,6 @@ You can run the entire simulator using Docker without installing Python dependen
 - On the web UI:
   - You can directly upload the existing `processes.txt` in the project directory to quickly simulate the default test.
   - Or you can edit/create your own `processes.txt` (same format) and upload it to simulate your own scenarios.
+
+### Dashboard View
+![Dashboard Screenshot](./screenshot.png)
