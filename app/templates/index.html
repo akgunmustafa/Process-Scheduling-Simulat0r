@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CS 305 Process Scheduler</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .gantt-bar {
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-right: 1px solid white;
+        }
+        .gantt-idle { background-color: #e9ecef; color: #6c757d; }
+        .bg-p1 { background-color: #0d6efd; }
+        .bg-p2 { background-color: #198754; }
+        .bg-p3 { background-color: #dc3545; }
+        .bg-p4 { background-color: #fd7e14; }
+        .bg-other { background-color: #6f42c1; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <h1 class="text-center mb-4">CS 305: Process Scheduling Simulator</h1>
+    
+    <div class="card p-4 shadow-sm mb-5">
+        <form action="/simulate" method="post" enctype="multipart/form-data" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Upload processes.txt</label>
+                <input type="file" name="file" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Round Robin Time Quantum</label>
+                <input type="number" name="time_quantum" class="form-control" value="3" required>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Simulate</button>
+            </div>
+        </form>
+    </div>
+
+    {% if results %}
+    {% for algo, data in results.items() %}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="m-0">{{ algo }} {% if algo == 'RR' %}(TQ={{ tq }}){% endif %}</h4>
+        </div>
+        <div class="card-body">
+            <h5>Gantt Chart</h5>
+            <div class="d-flex mb-3 overflow-auto border rounded p-2">
+                {% for pid, start, end in data.gantt_chart %}
+                {% set duration = end - start %}
+                <div class="gantt-bar {% if pid == None %}gantt-idle{% elif pid == 'P1' %}bg-p1{% elif pid == 'P2' %}bg-p2{% elif pid == 'P3' %}bg-p3{% elif pid == 'P4' %}bg-p4{% else %}bg-other{% endif %}" 
+                     style="flex: {{ duration }}; min-width: {{ duration * 20 }}px;">
+                    {{ pid if pid else 'Idle' }}<br><small>({{ end }})</small>
+                </div>
+                {% endfor %}
+            </div>
+
+            <table class="table table-bordered table-sm text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Process</th><th>Finish</th><th>Turnaround</th><th>Waiting</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in data.processes %}
+                    <tr>
+                        <td>{{ p.pid }}</td><td>{{ p.finish }}</td><td>{{ p.turnaround }}</td><td>{{ p.waiting }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="fw-bold bg-light">
+                        <td>Avg/Total</td>
+                        <td>-</td>
+                        <td>{{ data.average_turnaround }}</td>
+                        <td>{{ data.average_waiting }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="text-end text-muted">CPU Utilization: <strong>{{ data.utilization }}%</strong></div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+</body>
+</html>
+
+
